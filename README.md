@@ -21,7 +21,7 @@ A powerful Chrome extension to export and import your browsing history and bookm
 1. Clone this repository:
    ```bash
    git clone git@github.com:mekartikshah/chromium-import-export.git
-   cd chromium-import-export/chrome-toolkit
+   cd chromium-import-export
    ```
 
 2. Open Chrome and go to `chrome://extensions/`
@@ -30,7 +30,7 @@ A powerful Chrome extension to export and import your browsing history and bookm
 
 4. Click "Load unpacked"
 
-5. Select the `chrome-toolkit` folder
+5. Select the `chromium-import-export` folder (the repository root)
 
 ### From Chrome Web Store
 
@@ -90,7 +90,7 @@ Due to Chrome API restrictions:
 ### Project Structure
 
 ```
-chrome-toolkit/
+chromium-import-export/
 ├── manifest.json       # Extension configuration
 ├── popup.html         # Extension popup UI
 ├── popup.css          # Popup styling
@@ -100,7 +100,10 @@ chrome-toolkit/
 │   ├── icon16.png
 │   ├── icon48.png
 │   └── icon128.png
-└── README.md          # This file
+├── README.md          # This file
+├── LICENSE            # MIT License
+├── CHANGELOG.md       # Version history
+└── DEBUGGING.md       # Debugging guide
 ```
 
 ### Key Technologies

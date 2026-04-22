@@ -158,6 +158,14 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 ## Changelog
 
+### Version 1.0.1 (2026-04-22)
+
+- 🐛 **Fixed History Import:** Removed unsupported `visitTime` parameter causing total import failure in Manifest V3.
+- 🐛 **Fixed Bookmarks Flattening:** Preserved the original folder structure (e.g. "Bookmarks Bar") during import instead of mixing everything into a single root folder.
+- ⚡ **Enhanced Background Reliability:** Added a background keepalive heartbeat to Bookmarks imports, preventing silent worker termination on huge imports.
+- 🤖 **Automated Testing:** Integrated Puppeteer and Jest for comprehensive E2E UI and API automated testing.
+- ✨ **Better Downloads UX:** Disabled OS `saveAs` dialogue popups during export for faster and more seamless testing/usage.
+
 ### Version 1.0.0 (2025-12-11)
 
 - ✅ Initial release

@@ -1,6 +1,6 @@
 {
   "name": "chrome-import-export",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A powerful Chrome extension to export and import your browsing history and bookmarks between Chromium-based browsers.",
   "main": "background.js",
   "scripts": {

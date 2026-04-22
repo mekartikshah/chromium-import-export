@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Chrome Toolkit - Export/Import",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Export and import your browser history and bookmarks between Chromium-based browsers",
     "permissions": [
         "bookmarks",

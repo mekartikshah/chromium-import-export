@@ -24,7 +24,7 @@ function downloadJSON(data, filename) {
     chrome.downloads.download({
         url: url,
         filename: filename,
-        saveAs: true
+        saveAs: false
     }, (downloadId) => {
         if (chrome.runtime.lastError) {
             showStatus(`Error: ${chrome.runtime.lastError.message}`, 'error');

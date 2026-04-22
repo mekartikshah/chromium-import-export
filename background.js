@@ -129,11 +129,8 @@ async function importHistoryBackground(data) {
                             url: item.url
                         };
 
-                        // Add visit time if available to preserve original date
-                        if (item.lastVisitTime) {
-                            historyItem.visitTime = item.lastVisitTime;
-                        }
-
+                        // Note: chrome.history.addUrl does not support visitTime in manifest V3.
+                        // Passing it causes a TypeError and skips all history imports.
                         await chrome.history.addUrl(historyItem);
                         // Note: Chrome History API does NOT accept 'title' parameter
                         // The title is automatically fetched from the page when visited
@@ -199,6 +196,9 @@ async function importHistoryBackground(data) {
 // Import Bookmarks in background
 async function importBookmarksBackground(data) {
     try {
+        // Start keepalive to prevent service worker timeout
+        startKeepalive();
+
         updateState({
             isImporting: true,
             type: 'bookmarks',
@@ -231,6 +231,7 @@ async function importBookmarksBackground(data) {
         updateState({ progress: 40, status: 'Creating bookmarks...' });
 
         let importedCount = 0;
+        let skippedCount = 0;
 
         // Recursively import bookmarks
         async function importNode(node, parentId, depth = 0) {
@@ -248,32 +249,32 @@ async function importBookmarksBackground(data) {
                     if (importedCount % 10 === 0) {
                         updateState({
                             imported: importedCount,
+                            skipped: skippedCount,
                             status: `Imported ${importedCount} bookmarks...`
                         });
                     }
                 } catch (err) {
                     console.error('Failed to create bookmark:', node.title, err);
+                    skippedCount++;
                 }
-            } else if (node.children && node.children.length > 0) {
-                // It's a folder with children
-                const isSystemFolder = ['Bookmarks Bar', 'Other Bookmarks', 'Mobile Bookmarks'].includes(node.title);
-
-                if (isSystemFolder) {
-                    // Import children directly
-                    for (const child of node.children) {
-                        await importNode(child, parentId, depth + 1);
-                    }
-                } else {
-                    // Create folder and import children
+            } else if (node.children) {
+                // It's a folder, create it and import its children
+                let folderId = parentId;
+                try {
                     const folder = await chrome.bookmarks.create({
                         parentId: parentId,
                         title: node.title || 'Untitled Folder'
                     });
-
-                    for (const child of node.children) {
-                        await importNode(child, folder.id, depth + 1);
-                    }
+                    folderId = folder.id;
+                } catch (err) {
+                    console.error('Failed to create folder:', node.title, err);
                 }
+
+                for (const child of node.children) {
+                    await importNode(child, folderId, depth + 1);
+                }
+            } else {
+                skippedCount++;
             }
         }
 
@@ -291,9 +292,13 @@ async function importBookmarksBackground(data) {
         updateState({
             isImporting: false,
             imported: importedCount,
+            skipped: skippedCount,
             progress: 100,
-            status: `Successfully imported ${importedCount} bookmarks!`
+            status: `Successfully imported ${importedCount} bookmarks! (${skippedCount} skipped)`
         });
+
+        // Stop keepalive
+        stopKeepalive();
 
         // Keep success message visible
         setTimeout(() => {
@@ -302,6 +307,7 @@ async function importBookmarksBackground(data) {
 
     } catch (error) {
         console.error('Background: Import bookmarks error:', error);
+        stopKeepalive();
         updateState({
             isImporting: false,
             status: `Error: ${error.message}`,

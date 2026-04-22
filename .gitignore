@@ -62,3 +62,4 @@ yarn.lock
 # User data (exported files for testing)
 *-export-*.json
 exports/
+downloads/

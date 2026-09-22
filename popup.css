@@ -404,3 +404,30 @@ footer p {
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #5B52EE 0%, #A040F0 100%);
 }
+
+/* Buy Me a Coffee button */
+.bmc-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 10px auto 14px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #FF813F;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.bmc-button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.bmc-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 129, 63, 0.45);
+}

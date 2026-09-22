@@ -405,27 +405,16 @@ footer p {
   background: linear-gradient(135deg, #5B52EE 0%, #A040F0 100%);
 }
 
-/* Buy Me a Coffee button */
-.bmc-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #FF813F;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 600;
+/* Buy Me a Coffee link */
+.bmc-text {
+  display: block;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--text-secondary);
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
-.bmc-button svg {
-  width: 12px;
-  height: 12px;
-}
-
-.bmc-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(255, 129, 63, 0.45);
+.bmc-text:hover {
+  color: #FF813F;
 }

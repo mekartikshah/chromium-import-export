@@ -158,6 +158,10 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 ## Changelog
 
+### Version 1.0.2 (2026-09-22)
+
+- ☕ Added a "Buy Me a Coffee" link in the popup footer (buymeacoffee.com/kartikshah) so users can support the project.
+
 ### Version 1.0.1 (2026-04-22)
 
 - 🐛 **Fixed History Import:** Removed unsupported `visitTime` parameter causing total import failure in Manifest V3.

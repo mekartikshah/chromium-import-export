@@ -409,25 +409,23 @@ footer p {
 .bmc-button {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin: 10px auto 14px;
-  padding: 8px 14px;
-  border-radius: 8px;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
   background: #FF813F;
   color: #fff;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .bmc-button svg {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
 }
 
 .bmc-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 129, 63, 0.45);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(255, 129, 63, 0.45);
 }

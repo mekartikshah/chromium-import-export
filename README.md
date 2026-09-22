@@ -156,6 +156,10 @@ MIT License - see [LICENSE](LICENSE) file for details
 - LinkedIn: [linkedin.com/in/mekartikshah](https://linkedin.com/in/mekartikshah)
 - Twitter: [x.com/mekartikshah](https://x.com/mekartikshah)
 
+## Support
+
+If this extension saves you time, you can buy me a coffee: [buymeacoffee.com/kartikshah](https://buymeacoffee.com/kartikshah)
+
 ## Changelog
 
 ### Version 1.0.2 (2026-09-22)

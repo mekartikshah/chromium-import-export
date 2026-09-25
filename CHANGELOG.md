@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2026-09-25
+
+### Added
+- History import now accepts Google Takeout "Browser History" files, bare JSON arrays of history items, and files in `{"urls": [...]}` format, in addition to files exported by this extension
+
+### Changed
+- The invalid-file error now names the supported history file formats instead of the previous dead-end message
+
+### Fixed
+- Documentation: removed the claim that original visit timestamps are preserved (Chrome's API cannot restore them) and the unverified speed figures; added corrected Chrome Web Store listing copy in `STORE_DESCRIPTION.md`
+
 ## [1.0.2] - 2026-09-22
 
 ### Added

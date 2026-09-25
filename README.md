@@ -9,10 +9,10 @@ A powerful Chrome extension to export and import your browsing history and bookm
 ✅ **Export Bookmarks** - Save your bookmarks as JSON  
 ✅ **Export History** - Export up to 100,000 history entries  
 ✅ **Import Bookmarks** - Restore bookmarks from JSON file  
-✅ **Import History** - Import history with original visit dates  
+✅ **Import History** - Import history from extension exports, Google Takeout files, or JSON arrays  
 ✅ **Background Processing** - Imports run in background without freezing  
 ✅ **Progress Tracking** - Real-time progress updates  
-✅ **Fast & Reliable** - Process 100+ items per second  
+✅ **Fast & Reliable** - Handles large exports without freezing the browser  
 
 ## Installation
 
@@ -34,7 +34,7 @@ A powerful Chrome extension to export and import your browsing history and bookm
 
 ### From Chrome Web Store
 
-Coming soon! (Link will be added after publication)
+[Chrome Toolkit - Export/Import on the Chrome Web Store](https://chromewebstore.google.com/detail/chrome-toolkit-exportimpo/mfaekebjljbgajfhplladimfindpmppo)
 
 ## Usage
 
@@ -65,15 +65,14 @@ Coming soon! (Link will be added after publication)
 
 ### Import Performance
 
-- **Speed:** ~100 items/second
 - **Capacity:** Up to 100,000 history items
-- **Success Rate:** 99.86% (only skips chrome-extension:// URLs)
-- **Time:** 10-15 minutes for 100K items
+- **Skipped Items:** Only chrome-extension:// URLs cannot be restored
+- **Speed:** Varies by machine. Imports run in the background, so you can close the popup; a 100K-entry history can take tens of minutes
 
 ### What Gets Preserved
 
 ✅ **URLs** - All web addresses  
-✅ **Visit Dates** - Original visit timestamps  
+❌ **Visit Dates** - Imported entries are added with the current date; Chrome's API cannot restore original timestamps  
 ❌ **Titles** - Not preserved (Chrome API limitation)  
 ❌ **Visit Counts** - Not preserved (Chrome API limitation)  
 
@@ -83,7 +82,9 @@ Due to Chrome API restrictions:
 
 - Titles are not imported (will be fetched when you visit the URLs)
 - Visit counts and typed counts are not preserved
+- Visit dates are not preserved; imported entries get the current date
 - Chrome extension URLs (chrome-extension://) cannot be imported
+- History import accepts files exported by this extension (JSON with `"type": "history"`), Google Takeout "Browser History" files, bare JSON arrays of history items, and files in `{"urls": [...]}` format. Anything else is rejected with an error that names the supported formats.
 
 ## Development
 
@@ -132,6 +133,10 @@ This extension:
 
 - Make sure you're importing the correct file type (history vs bookmarks)
 - Check the service worker console for detailed error messages
+
+### Error "Invalid file type. Expected a history export from this extension"
+
+- The error names the supported formats. History files must be one of: this extension's own export (JSON with `"type": "history"`), a Google Takeout "Browser History" file, a bare array of history items, or a `{"urls": [...]}` file. Check the first few lines of your file against those shapes.
 
 ### Debugging
 

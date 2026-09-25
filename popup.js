@@ -95,6 +95,55 @@ async function exportHistory() {
     }
 }
 
+// Normalize the many shapes of history files into the flat array the background
+// worker expects. Supported shapes:
+//   1. This extension's own export:   { "type": "history", "data": [{ url, title, ... }] }
+//   2. Google Takeout:                { "Browser History": [{ url, title, visit_time, ... }] }
+//   3. Bare array of items:           [{ url, title }, ...]
+//   4. URL-list object:               { "urls": ["https://...", { url: "https://..." }, ...] }
+// Throws with a helpful message when the file matches none of these shapes.
+function normalizeHistoryData(importData) {
+    let items = null;
+
+    if (Array.isArray(importData)) {
+        items = importData;
+    } else if (importData && typeof importData === 'object') {
+        if (importData.type === 'history' && Array.isArray(importData.data)) {
+            items = importData.data;
+        } else if (Array.isArray(importData['Browser History'])) {
+            items = importData['Browser History'];
+        } else if (Array.isArray(importData.urls)) {
+            items = importData.urls;
+        }
+    }
+
+    if (items === null) {
+        throw new Error(
+            'Invalid file type. Expected a history export from this extension ' +
+            '(JSON with "type": "history"), a Google Takeout "Browser History" file, ' +
+            'or a JSON array of history items.'
+        );
+    }
+
+    // Map every entry to the minimal { url } shape; strings are treated as URLs.
+    const entries = items
+        .map(item => {
+            if (typeof item === 'string') return { url: item };
+            if (item && typeof item.url === 'string') return { url: item.url };
+            return null;
+        })
+        .filter(item => item !== null);
+
+    // Dedupe by URL (Google Takeout has one row per visit, so the same URL appears
+    // many times). Preserves first-seen order.
+    const seen = new Set();
+    return entries.filter(item => {
+        if (seen.has(item.url)) return false;
+        seen.add(item.url);
+        return true;
+    });
+}
+
 // Import Bookmarks - delegates to background service worker
 async function importBookmarks(file) {
     try {
@@ -139,16 +188,14 @@ async function importHistory(file) {
 
         console.log('History import data:', importData);
 
-        if (importData.type !== 'history') {
-            throw new Error('Invalid file type. Expected history export file.');
-        }
+        const historyItems = normalizeHistoryData(importData);
 
         showStatus('Starting background import...', 'loading', 40);
 
         // Send to background service worker
         const response = await chrome.runtime.sendMessage({
             type: 'startHistoryImport',
-            data: importData.data
+            data: historyItems
         });
 
         if (!response.success) {

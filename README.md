@@ -167,6 +167,12 @@ If this extension saves you time, you can buy me a coffee: [buymeacoffee.com/kar
 
 ## Changelog
 
+### Version 1.0.3 (2026-09-25)
+
+- **Flexible History Import:** history import now accepts Google Takeout "Browser History" files, bare JSON arrays of history items, and `{"urls": [...]}` files, not just exports from this extension.
+- **Clearer Errors:** an unsupported history file now reports which formats are accepted instead of a dead-end "invalid file type" message.
+- **Documentation Corrections:** removed the claim that original visit dates are preserved (Chrome's API does not allow it) and the unverified import speed figures.
+
 ### Version 1.0.2 (2026-09-22)
 
 - ☕ Added a "Buy Me a Coffee" link in the popup footer (buymeacoffee.com/kartikshah) so users can support the project.
